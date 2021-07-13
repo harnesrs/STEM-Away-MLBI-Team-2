@@ -17,15 +17,14 @@ Changes I had to make to original code to get it to run in Python 3:
 Questions I have:
 - From the paper, EBC appears to have an unsupervised step and a supervised step. Which steps are happening here? 
     Group 3 was also confused about this when they presented -- they assumed the code does both of the steps.
-    To me it looks like it's the unsupervised step because it's clustering, but the unsupervised step is supposed to output an nxn co-occurence matrix.
-    Our final matrix is 2 x 3514, so I'm not really sure what our output matrix is.
     Hopefully Colin's material this week will clarify this; if not we will ask him.
+- Do we use EBC or EBC2D?
 '''
 
 
+### If using EBC
 
-
-# If using EBC
+# Read in data
 with open("ebc/resources/matrix-ebc-paper-dense.tsv", "r") as f:
     data = []
     for line in f:
@@ -34,23 +33,26 @@ with open("ebc/resources/matrix-ebc-paper-dense.tsv", "r") as f:
             continue
         data.append([sl[0], sl[2], float(sl[4])]) # what is going on in this line?
 
-sparse_matrix = matrix.SparseMatrix([3514, 1232]) # why these numbers?
+# Set up SparseMatrix
+sparse_matrix = matrix.SparseMatrix([3514, 1232]) 
 sparse_matrix.read_data(data) # takes in list of values, populates the SparseMatrix 
 sparse_matrix.normalize()
 
+# Run EBC
 ebc_test = EBC(sparse_matrix, n_clusters=[30, 125], max_iterations=10, jitter_max=1e-10, objective_tolerance=0.01)
 cXY, objective, iter = ebc_test.run()
-print(f'# rows: {len(cXY)}\n# cols: {len(cXY[0])}') 
+print(f'# of lists: {len(cXY)}\n# elements in first list: {len(cXY[0])}\n# elements in second list: {len(cXY[1])}') 
+print(cXY)
 
-# cXY is of shape 2 x 3514; the 3514 is the num rows in sparse_matrix and (from Group 3's presentation) the 2 should be 
-#   cluster assignments for drug-gene pairs and dependency paths, respectively.
-# Overall, I'm still not super sure of what this cXY is and what it's used for
 # The documentation says "cXY: a list of list of cluster assignments along each dimension e.g. [C(X), C(Y), ...]"
-# I tried reading the paper again but it was a little over my head; let's ask Colin at our next meeting
+# In our case, cXY is a list of two lists 
+#   the first list is of length 3514 (cluster assignment for each drug-gene pairs)
+#   the second list is of length 1232 (cluster assignment for each dependency path)
+# Overall, I'm still not super sure of how we use this cXY going forward
 
 
 '''
-# If using EBC2D (wasn't fully able to get this to work)
+### If using EBC2D (wasn't fully able to get this to work)
 data = np.asarray([l.split('\t') for l in open('ebc/resources/matrix-ebc-paper-dense.tsv', 'r').readlines()])
 ebc_test = EBC2D(data, n_clusters=[30, 125], max_iterations=10, jitter_max=1e-10, objective_tolerance=0.01)
 cXY, objective, iter = ebc_test.run()
