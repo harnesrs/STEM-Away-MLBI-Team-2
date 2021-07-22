@@ -34,21 +34,42 @@ with open("ebc/resources/matrix-ebc-paper-dense.tsv", "r") as f:
         data.append([sl[0], sl[2], float(sl[4])]) # what is going on in this line?
 
 # Set up SparseMatrix
-sparse_matrix = matrix.SparseMatrix([3514, 1232]) 
+n = 3514 # number of unique drug-gene pairs
+m = 1232 # number of unique dependency paths (figure out a way to not hard-code these)
+sparse_matrix = matrix.SparseMatrix([n, m]) 
 sparse_matrix.read_data(data) # takes in list of values, populates the SparseMatrix 
 sparse_matrix.normalize()
 
-# Run EBC
-ebc_test = EBC(sparse_matrix, n_clusters=[30, 125], max_iterations=10, jitter_max=1e-10, objective_tolerance=0.01)
-cXY, objective, iter = ebc_test.run()
-print(f'# of lists: {len(cXY)}\n# elements in first list: {len(cXY[0])}\n# elements in second list: {len(cXY[1])}') 
-print(cXY)
+# Create dict mapping from index to drug-gene pair
+idx_to_drug_gene = {}
+for key, val in sparse_matrix.feature_ids[0].items():
+    idx_to_drug_gene[val] = key
 
-# The documentation says "cXY: a list of list of cluster assignments along each dimension e.g. [C(X), C(Y), ...]"
-# In our case, cXY is a list of two lists 
-#   the first list is of length 3514 (cluster assignment for each drug-gene pairs)
-#   the second list is of length 1232 (cluster assignment for each dependency path)
-# Overall, I'm still not super sure of how we use this cXY going forward
+
+# Run EBC N times, create co-occurrence matrix
+
+N = 100
+C = np.zeros((n, n), dtype=int) 
+for iter_num in range(N):
+    # is this the right k and l (number of clusters)?
+    ebc_test = EBC(sparse_matrix, n_clusters=[30, 125], max_iterations=10, jitter_max=1e-10, objective_tolerance=0.01)
+    cXY, objective, iter = ebc_test.run(verbose=False)
+    cluster_assignments = cXY[0]
+    assert len(cluster_assignments) == n
+    for i in range(n):
+        clust = cluster_assignments[i]
+        for j in range(i, n):
+            if cluster_assignments[j] == clust:
+                C[i,j] += 1
+                if i != j: # don't want to duplicate along diagonal
+                    C[j,i] += 1
+    if (iter_num+1)%5 == 0:
+        print(f"Iteration {iter_num+1} done.")
+
+np.savetxt("cooccurrence.csv", C, delimiter=',')
+
+
+
 
 
 '''
