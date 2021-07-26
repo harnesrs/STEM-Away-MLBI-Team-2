@@ -32,11 +32,10 @@ for file in glob.glob("*.xml"):
     graph.update( {'parse_xml-'+str(i) : (load, file)} )
     i += 1
 
-
-for n in range(1,6):
+for n in range(1,i):
     graph.update( {"filter_abstract-"+str(n): (clean, "parse_xml-"+str(n))})
 
-graph.update( [ ('get_len' , (analyze, ['filter_abstract-%d' % i for i in [1, 6]])) , 
+graph.update( [ ('get_len' , (analyze, ['filter_abstract-%d' % i for i in [1, 5]])) , 
             ('store' , (store, 'get_len')) ])
 
 print(graph)
