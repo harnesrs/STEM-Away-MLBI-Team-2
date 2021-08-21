@@ -2,6 +2,8 @@
 This repository includes an unofficial inplementation of the paper entitled: "Learning the Structure of Biomedical
 Relationships from Unstructured Text" authored by Bethany Percha, Russ B. Altman at stanford university.
 
+This implementation was part of [STEM-Away](https://stemaway.com) virtual internships in summer of 2021. 
+
 The goal of the paper is to use the novel ensemble biclustering for classification (EBC) algorithm extract drug-target relationships from biomedical literature. The implementation is divided into 3 sections:
 
 # 1- Preprocessing pipeline: 
