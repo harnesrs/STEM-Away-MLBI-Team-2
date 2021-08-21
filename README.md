@@ -14,7 +14,7 @@ this section includes the preparation of the data before using it as input to th
 # 3- EBC:
 
 # Collaborators:
-1- [Baishali Mondal]()\
+1- [Baishali Mondal](https://github.com/baishali123314)\
 2- [Lawrence Nguyen](https://github.com/law-nguyen)\
 3- [Rachel Harness](https://github.com/harnesrs)\
 4- [Sahil Bolar](https://github.com/sahil-bolar)\
