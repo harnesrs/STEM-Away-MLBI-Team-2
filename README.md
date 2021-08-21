@@ -7,7 +7,7 @@ This implementation was part of [STEM-Away](https://stemaway.com) virtual intern
 The goal of the paper is to use the novel ensemble biclustering for classification (EBC) algorithm extract drug-target relationships from biomedical literature. The implementation is divided into 3 sections:
 
 # 1- Preprocessing pipeline: 
-this section includes the preparation of the data before using it as input to the EBC. It includes reading the publications database, parsing the sentences, filtering in the sentences that contain drug-gene pairs, and using the Stanford PArser to extract the dependency path between each pair of drugs and genes. THe final output of this pipline is a dependency matrix that consists of 3 columns: drug, gene, and dependency path. This matrix can go directly into EBC.
+This section includes the preparation of the data before using it as input to the EBC. It includes reading the publications database, parsing the sentences, filtering in the sentences that contain drug-gene pairs, and using the Stanford PArser to extract the dependency path between each pair of drugs and genes. THe final output of this pipline is a dependency matrix that consists of 3 columns: drug, gene, and dependency path. This matrix can go directly into EBC.
 
 # 2- Parallel-processing pipline:
 
