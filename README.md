@@ -18,7 +18,7 @@ this section includes the preparation of the data before using it as input to th
 2- [Lawrence Nguyen](https://github.com/law-nguyen)\
 3- [Rachel Harness](https://github.com/harnesrs)\
 4- [Sahil Bolar](https://github.com/sahil-bolar)\
-5- [Sunnie Wang]()\
+5- [Sunnie Wang](https://github.com/Sunnie912)\
 6- [Wafaa Mohammed](https://github.com/Wafaa014)
 
 (names in alphabetical order)
