@@ -10,6 +10,8 @@ The goal of the paper is to use the novel ensemble biclustering for classificati
 This section includes the preparation of the data before using it as input to the EBC. It includes reading the publications database, parsing the sentences, filtering in the sentences that contain drug-gene pairs, and using the Stanford PArser to extract the dependency path between each pair of drugs and genes. THe final output of this pipline is a dependency matrix that consists of 3 columns: drug, gene, and dependency path. This matrix can go directly into EBC.
 
 # 2- Parallel-processing pipline:
+This section is is aimed to integrate the previous pipeline and execute it on all data files in parallel. This is achieved by creating a generating a Dask graph based on the arbitrary number of files present in a data directory. Once the graph is generated, we are able to use Dask to execute all preprocessing of all data files in parallel and combine all the results after executing. 
+
 
 # 3- EBC:
 
